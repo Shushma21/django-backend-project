@@ -7,4 +7,15 @@ class UserProfile(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):
-		return self.email
+		return self.fullname
+
+
+
+class Product(models.Model):
+	productId = models.AutoField(primary_key=True)
+	productName = models.CharField(max_length=100)
+	productPrice = models.IntegerField()
+	created_at = models.DateTimeField(auto_now_add=True)
+	
+	def __str__(self):
+		return self.productName
