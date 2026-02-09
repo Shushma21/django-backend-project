@@ -1,7 +1,6 @@
 from django.http import HttpResponse
 from .models import UserProfile
 from django.http import JsonResponse
-from django.db import IntegrityError
 
 
 def get_users(request):
@@ -10,7 +9,7 @@ def get_users(request):
 
 
 
-def get_total_user_count(request,username,email):
+def get_total_user_count(request):
 	count = UserProfile.objects.count()
 	return HttpResponse(f"Total user count in platform is:{count}")
 
