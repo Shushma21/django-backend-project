@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from .models import UserProfile
 from django.http import JsonResponse
+from django.db import IntegrityError
 
 
 def get_users(request):
@@ -9,6 +10,22 @@ def get_users(request):
 
 
 
-def get_total_user_count(request):
+def get_total_user_count(request,username,email):
 	count = UserProfile.objects.count()
 	return HttpResponse(f"Total user count in platform is:{count}")
+
+
+def create_user(request,username,email):
+
+	if UserProfile.objects.filter(email=email).exists():
+		return JsonResponse({"error":"User with this email already exists"})	
+
+	user = UserProfile.objects.create(
+			fullname = username,
+			email = email
+		)
+	return JsonResponse({"message":"User created successfully","id":user.id})
+	
+def delete_user(request,user_id):
+	UserProfile.objects.filter(id = user_id).delete()
+	return JsonResponse({"message":"User deleted successfully"})
