@@ -8,4 +8,5 @@ urlpatterns = [
 		path('create_user/<str:username>/<str:email>/',views.create_user,name = 'create_user'),
 		path('delete_user/<int:user_id>/',views.delete_user,name = 'delete_user'),
 		path('api/user_list/',views.user_list,name = 'user_list'),
+		path('api/user_detail/<int:id>/',views.user_detail,name = 'user_detail'),
 	]
