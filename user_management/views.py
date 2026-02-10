@@ -1,8 +1,9 @@
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from .serializers import UserProfileSerializer
+from rest_framework import status # provides readable http status codes
+from rest_framework.decorators import api_view # turns normal function into drf api view
+from rest_framework.response import Response # drf's response class that  returns json
+from .serializers import UserProfileSerializer # converts UserProfile objects to/from json and handles validation
 from django.http import HttpResponse
-from .models import UserProfile
+from .models import UserProfile # model
 from django.http import JsonResponse
 
 
@@ -33,8 +34,16 @@ def delete_user(request,user_id):
 	return JsonResponse({"message":"User deleted successfully"})
 
 
-@api_view(['GET'])
+@api_view(['GET','POST'])	#declares this endpoint accepts only GET & POST
 def user_list(request):
-	users = UserProfile.objects.all()
-	serializer = UserProfileSerializer(users,many=True)
-	return Response(serializer.data)
+	if request.method == 'GET':
+		users = UserProfile.objects.all()
+		serializer = UserProfileSerializer(users,many=True)   #many=True tells drf its a list,not a single object
+		return Response(serializer.data)
+
+	if request.method == 'POST':
+		serializer = UserProfileSerializer(data=request.data)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data,status=status.HTTP_201_CREATED)
+		return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
