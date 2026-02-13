@@ -1,12 +1,12 @@
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404 #fetches single object from db else returns 404 if doesn't exist
 from rest_framework import status # provides readable http status codes
-from rest_framework.decorators import api_view # turns normal function into drf api view
+from rest_framework.decorators import api_view,permission_classes # turns normal function into drf api view
 from rest_framework.response import Response # drf's response class that  returns json
 from .serializers import UserProfileSerializer # converts UserProfile objects to/from json and handles validation
 from django.http import HttpResponse
 from .models import UserProfile # model
 from django.http import JsonResponse
-
+from rest_framework.permissions import IsAuthenticated
 
 def get_users(request):
 	users = list(UserProfile.objects.values())
@@ -36,6 +36,7 @@ def delete_user(request,user_id):
 
 
 @api_view(['GET','POST'])	#declares this endpoint accepts only GET & POST
+@permission_classes([IsAuthenticated])
 def user_list(request):
 	if request.method == 'GET':
 		users = UserProfile.objects.all()
