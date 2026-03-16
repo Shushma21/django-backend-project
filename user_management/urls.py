@@ -2,12 +2,15 @@ from django.urls import path
 from .import views
 from rest_framework.routers import DefaultRouter
 from .views import UserProfileViewSet
+from .views import UserListAPIView
 
-router = DefaultRouter()
-router.register(r'users',UserProfileViewSet)
+#router = DefaultRouter()
+#router.register(r'users',UserProfileViewSet)
 
-urlpatterns = router.urls
-
+#urlpatterns = router.urls
+urlpatterns = [
+		path('user-list/',UserListAPIView.as_view()),
+	]
 
 #urlpatterns = [
 #		path('',views.get_users,name='get_users'),

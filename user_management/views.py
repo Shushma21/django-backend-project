@@ -8,6 +8,11 @@ from .models import UserProfile # model
 from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
+from rest_framework.generics import ListAPIView
+
+class UserListAPIView(ListAPIView):
+	queryset = UserProfile.objects.all()
+	serializer_class = UserProfileSerializer
 
 class UserProfileViewSet(viewsets.ModelViewSet):
 	queryset = UserProfile.objects.all()
