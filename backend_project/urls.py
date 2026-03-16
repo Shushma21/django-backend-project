@@ -28,5 +28,5 @@ urlpatterns = [
     path('',lambda request:HttpResponse("Welcome to the page")),
     path('api/token/',TokenObtainPairView.as_view(),name='token_obtain_pair'),
     path('api/token/refresh/',TokenRefreshView.as_view(),name='token_refresh'),
-    path('user_management/',include('user_management.urls')),	
+    path('api/',include('user_management.urls')),	
 ]

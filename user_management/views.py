@@ -7,6 +7,12 @@ from django.http import HttpResponse
 from .models import UserProfile # model
 from django.http import JsonResponse
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+	queryset = UserProfile.objects.all()
+	serializer_class = UserProfileSerializer
+	
 
 def get_users(request):
 	users = list(UserProfile.objects.values())
@@ -66,6 +72,4 @@ def user_detail(request,id):
 	if request.method == 'DELETE':
 		user.delete()
 		return Response(status=status.HTTP_204_NO_CONTENT)
-
-
 
